@@ -19,12 +19,20 @@ class GameView @JvmOverloads constructor(
     private val paintBall = Paint().apply { color = Color.WHITE }
     private val paintHole = Paint().apply { color = Color.BLACK }
     private val paintField = Paint().apply { color = Color.GREEN }
+    private val paintBorder = Paint().apply {
+        color = Color.DKGRAY
+        style = Paint.Style.STROKE
+        strokeWidth = 8f
+    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         // Fondo verde (campo)
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paintField)
+
+        // Borde del campo
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paintBorder)
 
         // Hoyo
         canvas.drawCircle(gameState.holeX, gameState.holeY, 30f, paintHole)

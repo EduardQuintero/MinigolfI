@@ -18,10 +18,16 @@ data class GameState(
         ballY = 600f
     }
 
-    fun applySwing(force: Double, dx: Float, dy: Float) {
+    fun applySwing(force: Double, dx: Float, dy: Float, maxWidth: Float, maxHeight: Float) {
         strokes++
         ballX += (dx * force).toFloat()
         ballY += (dy * force).toFloat()
+
+        // Limitar dentro del campo
+        if (ballX < 20f) ballX = 20f
+        if (ballY < 20f) ballY = 20f
+        if (ballX > maxWidth - 20f) ballX = maxWidth - 20f
+        if (ballY > maxHeight - 20f) ballY = maxHeight - 20f
     }
 
     fun isBallInHole(): Boolean {
