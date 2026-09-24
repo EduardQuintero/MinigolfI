@@ -5,7 +5,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import kotlin.math.sqrt
+
 
 class SwingDetector(context: Context) : SensorEventListener {
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -21,13 +21,13 @@ class SwingDetector(context: Context) : SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent) {
         if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
-            val dy = event.values[1]   // eje Y: arriba/abajo
+            val dy = event.values[1]
             val force = Math.abs(dy)
 
-            // Solo golpes fuertes hacia abajo cuentan
+
             if (force > 20 && dy > 1 ) {
-                // dx = 0 porque solo usamos movimiento vertical
-                onSwingDetected(force * 1.6, 0f, dy)
+
+                onSwingDetected(force * 1.6, 0.3f,dy)
             }
         }
 

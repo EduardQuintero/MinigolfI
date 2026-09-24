@@ -44,7 +44,7 @@ class MainActivity : GameActivity() {
         swingDetector.onSwingDetected = { force, dx, dy ->
             val orientation = if (resources.configuration.orientation ==
                 android.content.res.Configuration.ORIENTATION_PORTRAIT) "vertical" else "horizontal"
-            val topMargin = 200f // margen superior dinámico debajo del menú
+            val topMargin = 200f
 
             gameState.applySwing(
                 force,
@@ -105,15 +105,15 @@ class MainActivity : GameActivity() {
     }
 
     private fun showStatsMenu() {
-        val message = "¡Hoyo completado!\n" +
-                "Golpes: ${gameState.strokes}\n" +
+        val message = "¡Hole complete!\n" +
+                "Hits: ${gameState.strokes}\n" +
                 "Par: ${gameState.par}\n" +
-                "Hoyo: ${gameState.holeNumber}"
+                "Hole: ${gameState.holeNumber}"
 
         android.app.AlertDialog.Builder(this)
-            .setTitle("Estadísticas")
+            .setTitle("statistics")
             .setMessage(message)
-            .setPositiveButton("Continuar") { _, _ ->
+            .setPositiveButton("Continue") { _, _ ->
                 val orientation = if (resources.configuration.orientation ==
                     android.content.res.Configuration.ORIENTATION_PORTRAIT) "vertical" else "horizontal"
                 val topMargin = 200f

@@ -14,17 +14,17 @@ data class GameState(
 ) {
     fun initPositions(maxWidth: Float, maxHeight: Float, orientation: String, topMargin: Float) {
         if (orientation == "vertical") {
-            // Hoyo arriba centrado, pero debajo del menú
+
             holeX = maxWidth / 2
             holeY = topMargin + 150f
-            // Pelota abajo centrada
+
             ballX = maxWidth / 2
             ballY = maxHeight - 100f
         } else {
-            // Hoyo a la izquierda centrado
+
             holeX = 120f
             holeY = (maxHeight / 2).coerceAtLeast(topMargin + 150f)
-            // Pelota a la derecha centrada
+
             ballX = maxWidth - 120f
             ballY = maxHeight / 2
         }
@@ -39,16 +39,16 @@ data class GameState(
         strokes++
 
         if (orientation == "vertical") {
-            // Movimiento hacia arriba con leve variación lateral
+
             ballY -= (force * 8).toFloat()
-            ballX += (dx * 0.2f)
+            ballX += (dx * 0.5f)
         } else {
-            // Movimiento hacia la izquierda con leve variación vertical
+
             ballX -= (force * 8).toFloat()
-            ballY += (dy * 0.2f)
+            ballY += (dy * 0.5f)
         }
 
-        // Limitar dentro del campo (debajo del menú)
+        // Limits
         if (ballX < 20f) ballX = 20f
         if (ballY < topMargin + 60f) ballY = topMargin + 60f
         if (ballX > maxWidth - 20f) ballX = maxWidth - 20f
@@ -59,9 +59,9 @@ data class GameState(
         val distance = sqrt((ballX - holeX).toDouble().pow(2) + (ballY - holeY).toDouble().pow(2))
 
         val holeRadius = 32.6
-        val proximityFactor = 0.98 // proximidad
+        val proximityFactor = 0.98 // prox
 
-        // Si la pelota entra dentro del radio ajustado, se considera completado
+        // done
         return distance <= holeRadius * proximityFactor
     }
 
