@@ -2,7 +2,6 @@ package com.example.minigolf.ui
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
@@ -16,11 +15,12 @@ class GameView @JvmOverloads constructor(
 
     lateinit var gameState: GameState
 
-    private val paintBall = Paint().apply { color = Color.WHITE }
-    private val paintHole = Paint().apply { color = Color.BLACK }
-    private val paintField = Paint().apply { color = Color.GREEN }
+    private val paintBall = Paint().apply { color = android.graphics.Color.WHITE }
+    private val paintHole = Paint().apply { color = android.graphics.Color.BLACK }
+    // Verde lima para el campo
+    private val paintField = Paint().apply { color = android.graphics.Color.parseColor("#32CD32") }
     private val paintBorder = Paint().apply {
-        color = Color.DKGRAY
+        color = android.graphics.Color.DKGRAY
         style = Paint.Style.STROKE
         strokeWidth = 8f
     }

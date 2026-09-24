@@ -33,7 +33,7 @@ class MainActivity : GameActivity() {
         setContentView(R.layout.activity_main)
 
         gameView = findViewById(R.id.gameView)
-        gameView.gameState = gameState  // Conectar estado al GameView
+        gameView.gameState = gameState
 
         strokesText = findViewById(R.id.strokesText)
         resetButton = findViewById(R.id.resetButton)
@@ -43,7 +43,13 @@ class MainActivity : GameActivity() {
 
         swingDetector = SwingDetector(this)
         swingDetector.onSwingDetected = { force, dx, dy ->
-            gameState.applySwing(force, dx, dy)
+            gameState.applySwing(
+                force,
+                dx,
+                dy,
+                gameView.width.toFloat(),
+                gameView.height.toFloat()
+            )
             updateUI()
             if (gameState.isBallInHole()) {
                 Toast.makeText(this, getString(R.string.hole_completed), Toast.LENGTH_SHORT).show()
@@ -52,7 +58,9 @@ class MainActivity : GameActivity() {
         }
 
         resetButton.setOnClickListener {
-            gameState.resetHole()
+            val orientation = if (resources.configuration.orientation ==
+                android.content.res.Configuration.ORIENTATION_PORTRAIT) "vertical" else "horizontal"
+            gameState.resetHole(gameView.width.toFloat(), gameView.height.toFloat(), orientation)
             updateUI()
             gameView.invalidate()
         }
@@ -66,6 +74,9 @@ class MainActivity : GameActivity() {
     override fun onResume() {
         super.onResume()
         swingDetector.start()
+        val orientation = if (resources.configuration.orientation ==
+            android.content.res.Configuration.ORIENTATION_PORTRAIT) "vertical" else "horizontal"
+        gameState.initPositions(gameView.width.toFloat(), gameView.height.toFloat(), orientation)
     }
 
     override fun onPause() {

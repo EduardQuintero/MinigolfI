@@ -16,16 +16,16 @@ class SwingDetector(context: Context) : SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent) {
-        val force = sqrt(
-            (event.values[0] * event.values[0] +
-                    event.values[1] * event.values[1] +
-                    event.values[2] * event.values[2]).toDouble()
-        )
+        if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
+            val dx = event.values[0]
+            val dy = event.values[1]
+            val force = sqrt((dx * dx + dy * dy).toDouble())
 
-        val directionX = event.values[0]
-        val directionY = event.values[1]
-
-        onSwingDetected(force, directionX, directionY)
+            // Solo golpes elevados cuentan
+            if (force > 15) {
+                onSwingDetected(force * 0.4, dx, dy)
+            }
+        }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}

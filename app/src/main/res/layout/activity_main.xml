@@ -14,7 +14,8 @@
         android:background="@color/overlayBackground"
         android:padding="8dp"
         android:gravity="center"
-        android:layout_gravity="top">
+        android:layout_gravity="top"
+        android:layout_marginTop="40dp">
 
         <TextView
             android:id="@+id/strokesText"

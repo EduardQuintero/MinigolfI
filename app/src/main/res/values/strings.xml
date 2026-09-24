@@ -9,6 +9,7 @@
         <string name="instructions_text">
         Sujeta el celular como si fuera un palo de golf.
         Realiza un movimiento de golpe (swing).
+        Solo los golpes fuertes cuentan.
         La fuerza y dirección del movimiento determinarán el golpe.
     </string>
 </resources>
