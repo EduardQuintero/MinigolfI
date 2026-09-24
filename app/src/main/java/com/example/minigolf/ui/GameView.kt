@@ -34,7 +34,7 @@ class GameView @JvmOverloads constructor(
         // Borde del campo
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paintBorder)
 
-        // Hoyo
+        // Hoyo (posición calculada en GameState)
         canvas.drawCircle(gameState.holeX, gameState.holeY, 30f, paintHole)
 
         // Pelota

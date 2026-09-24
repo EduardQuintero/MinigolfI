@@ -3,7 +3,6 @@ package com.example.minigolf
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import com.google.androidgamesdk.GameActivity
@@ -43,16 +42,22 @@ class MainActivity : GameActivity() {
 
         swingDetector = SwingDetector(this)
         swingDetector.onSwingDetected = { force, dx, dy ->
+            val orientation = if (resources.configuration.orientation ==
+                android.content.res.Configuration.ORIENTATION_PORTRAIT) "vertical" else "horizontal"
+            val topMargin = 200f // margen superior dinámico debajo del menú
+
             gameState.applySwing(
                 force,
                 dx,
                 dy,
                 gameView.width.toFloat(),
-                gameView.height.toFloat()
+                gameView.height.toFloat(),
+                orientation,
+                topMargin
             )
             updateUI()
             if (gameState.isBallInHole()) {
-                Toast.makeText(this, getString(R.string.hole_completed), Toast.LENGTH_SHORT).show()
+                showStatsMenu()
             }
             gameView.invalidate()
         }
@@ -60,7 +65,8 @@ class MainActivity : GameActivity() {
         resetButton.setOnClickListener {
             val orientation = if (resources.configuration.orientation ==
                 android.content.res.Configuration.ORIENTATION_PORTRAIT) "vertical" else "horizontal"
-            gameState.resetHole(gameView.width.toFloat(), gameView.height.toFloat(), orientation)
+            val topMargin = 200f
+            gameState.resetHole(gameView.width.toFloat(), gameView.height.toFloat(), orientation, topMargin)
             updateUI()
             gameView.invalidate()
         }
@@ -76,7 +82,8 @@ class MainActivity : GameActivity() {
         swingDetector.start()
         val orientation = if (resources.configuration.orientation ==
             android.content.res.Configuration.ORIENTATION_PORTRAIT) "vertical" else "horizontal"
-        gameState.initPositions(gameView.width.toFloat(), gameView.height.toFloat(), orientation)
+        val topMargin = 200f
+        gameState.initPositions(gameView.width.toFloat(), gameView.height.toFloat(), orientation, topMargin)
     }
 
     override fun onPause() {
@@ -95,5 +102,25 @@ class MainActivity : GameActivity() {
             hide(WindowInsets.Type.systemBars())
             systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+    }
+
+    private fun showStatsMenu() {
+        val message = "¡Hoyo completado!\n" +
+                "Golpes: ${gameState.strokes}\n" +
+                "Par: ${gameState.par}\n" +
+                "Hoyo: ${gameState.holeNumber}"
+
+        android.app.AlertDialog.Builder(this)
+            .setTitle("Estadísticas")
+            .setMessage(message)
+            .setPositiveButton("Continuar") { _, _ ->
+                val orientation = if (resources.configuration.orientation ==
+                    android.content.res.Configuration.ORIENTATION_PORTRAIT) "vertical" else "horizontal"
+                val topMargin = 200f
+                gameState.resetHole(gameView.width.toFloat(), gameView.height.toFloat(), orientation, topMargin)
+                updateUI()
+                gameView.invalidate()
+            }
+            .show()
     }
 }

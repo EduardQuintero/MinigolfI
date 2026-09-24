@@ -8,8 +8,8 @@
         <string name="instructions_title">Instrucciones</string>
         <string name="instructions_text">
         Sujeta el celular como si fuera un palo de golf.
-        Realiza un movimiento de golpe (swing).
-        Solo los golpes fuertes cuentan.
+        Realiza un movimiento fuerte (swing).
+        Solo los golpes elevados cuentan.
         La fuerza y dirección del movimiento determinarán el golpe.
     </string>
 </resources>
